@@ -317,7 +317,9 @@ class AlphaBetaPlayer(IsolationPlayer):
         try:
             # The try/except block will automatically catch the exception
             # raised when the timer is about to expire.
-            return self.alphabeta(game, self.search_depth)
+            while True:
+                best_move = self.alphabeta(game, self.search_depth)
+                self.search_depth += 1
 
         except SearchTimeout:
             pass  # Handle any actions required after timeout as needed

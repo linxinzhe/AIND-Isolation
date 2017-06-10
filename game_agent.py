@@ -112,6 +112,7 @@ class IsolationPlayer:
         positive value large enough to allow the function to return before the
         timer expires.
     """
+
     def __init__(self, search_depth=3, score_fn=custom_score, timeout=10.):
         self.search_depth = search_depth
         self.score = score_fn
@@ -212,8 +213,62 @@ class MinimaxPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        # TODO: finish this function!
-        raise NotImplementedError
+            # TODO: finish this function!
+        best_move = (-1, -1)
+        legal_moves = game.get_legal_moves()
+
+        v = float("-inf")
+        for a in legal_moves:
+            value = self.min_value(game.forecast_move(a), 1)
+            if value > v:
+                v = value
+                best_move = a
+
+        return best_move
+
+    def max_value(self, game, depth):
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        if self.terminal_test(game, depth):
+            return self.utility(game)
+
+        v = float("-inf")
+
+        legal_moves = game.get_legal_moves()
+
+        for a in legal_moves:
+            v = max(v, self.min_value(game.forecast_move(a), depth + 1))
+
+        return v
+
+    def min_value(self, game, depth):
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        if self.terminal_test(game, depth):
+            return self.utility(game)
+
+        v = float("inf")
+
+        legal_moves = game.get_legal_moves()
+
+        for a in legal_moves:
+            v = min(v, self.max_value(game.forecast_move(a), depth + 1))
+
+        return v
+
+    def terminal_test(self, game, depth):
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        return depth == self.search_depth or game.utility(self)
+
+    def utility(self, game):
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+
+        return self.score(game, self)
 
 
 class AlphaBetaPlayer(IsolationPlayer):

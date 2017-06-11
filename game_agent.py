@@ -320,6 +320,7 @@ class AlphaBetaPlayer(IsolationPlayer):
         # in case the search fails due to timeout
         best_move = (-1, -1)
 
+        self.search_depth = 1
         try:
             # The try/except block will automatically catch the exception
             # raised when the timer is about to expire.

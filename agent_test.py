@@ -35,7 +35,7 @@ class IsolationAlphaBetaTest(unittest.TestCase):
 
     def setUp(self):
         reload(game_agent)
-        self.player1 = AlphaBetaPlayer(search_depth=2, score_fn=open_move_score)
+        self.player1 = AlphaBetaPlayer(search_depth=3, score_fn=open_move_score)
         self.player2 = RandomPlayer()
         self.game = isolation.Board(self.player1, self.player2, width=9, height=9)
 

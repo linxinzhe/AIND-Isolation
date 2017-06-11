@@ -230,8 +230,8 @@ class MinimaxPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        if self.terminal_test(game, depth):
-            return self.utility(game)
+        if depth == self.search_depth or game.utility(self):
+            return self.score(game, self)
 
         v = float("-inf")
 
@@ -246,8 +246,8 @@ class MinimaxPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        if self.terminal_test(game, depth):
-            return self.utility(game)
+        if depth == self.search_depth or game.utility(self):
+            return self.score(game, self)
 
         v = float("inf")
 
@@ -257,18 +257,6 @@ class MinimaxPlayer(IsolationPlayer):
             v = min(v, self.max_value(game.forecast_move(a), depth + 1))
 
         return v
-
-    def terminal_test(self, game, depth):
-        if self.time_left() < self.TIMER_THRESHOLD:
-            raise SearchTimeout()
-
-        return depth == self.search_depth or game.utility(self)
-
-    def utility(self, game):
-        if self.time_left() < self.TIMER_THRESHOLD:
-            raise SearchTimeout()
-
-        return self.score(game, self)
 
 
 class AlphaBetaPlayer(IsolationPlayer):
@@ -399,8 +387,8 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        if self.terminal_test(game, depth):
-            return self.utility(game)
+        if depth == self.search_depth or game.utility(self):
+            return self.score(game, self)
 
         v = float("-inf")
 
@@ -420,8 +408,8 @@ class AlphaBetaPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        if self.terminal_test(game, depth):
-            return self.utility(game)
+        if depth == self.search_depth or game.utility(self):
+            return self.score(game, self)
 
         v = float("inf")
 
@@ -436,15 +424,3 @@ class AlphaBetaPlayer(IsolationPlayer):
             beta = min(beta, v)
 
         return v
-
-    def terminal_test(self, game, depth):
-        if self.time_left() < self.TIMER_THRESHOLD:
-            raise SearchTimeout()
-
-        return depth == self.search_depth or game.utility(self)
-
-    def utility(self, game):
-        if self.time_left() < self.TIMER_THRESHOLD:
-            raise SearchTimeout()
-
-        return self.score(game, self)

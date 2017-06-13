@@ -41,7 +41,43 @@ def custom_score(game, player):
     if game.is_winner(player):
         return float("inf")
 
-    return float(len(game.get_legal_moves(player)))
+    # position
+    center_position = (game.width // 2, game.height // 2)
+    my_position = game.get_player_location(player)
+    opponent_position = game.get_player_location(game.get_opponent(player))
+
+    # moves available
+    my_moves = game.get_legal_moves(player)
+    opponent_moves = game.get_legal_moves(game.get_opponent(player))
+
+    # mobility
+    my_mobility = len(my_moves)
+    opponent_mobility = len(opponent_moves)
+
+    if my_mobility == 0:
+        my_relative_mobility = 0
+    else:
+        my_relative_mobility = (my_mobility - opponent_mobility) / my_mobility
+    if opponent_mobility == 0:
+        opponent_relative_mobility = 0
+    else:
+        opponent_relative_mobility = (opponent_mobility - my_mobility) / opponent_mobility
+
+    center_mobility = 1 if center_position in my_moves else 0
+
+    my_center_distance = (center_position[0] - my_position[0]) ** 2 + (center_position[1] - my_position[1]) ** 2
+    opponent_center_distance = (center_position[0] - opponent_position[0]) ** 2 + (center_position[1] -
+                                                                                   opponent_position[1]) ** 2
+    if my_center_distance == 0:
+        my_relative_center_mobility = 0
+    else:
+        my_relative_center_mobility = (my_center_distance - opponent_center_distance) / my_center_distance
+
+    return float(
+        center_mobility +
+        my_relative_mobility +
+        my_relative_center_mobility
+    )
 
 
 def custom_score_2(game, player):

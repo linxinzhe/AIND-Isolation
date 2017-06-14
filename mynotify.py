@@ -4,20 +4,20 @@ from email.header import Header
 
 
 def notify_email():
-    with open("./result.txt") as f:
+    with open("./tournament_result.txt") as f:
         msg = f.read()
 
     message = MIMEText(msg, 'plain', 'utf-8')
 
-    subject = '执行完毕啦'
+    subject = 'Program Done'
     message['Subject'] = Header(subject, 'utf-8')
-    message['From'] = Header("林帅帅的AI", 'utf-8')
-    message['To'] = Header("林帅帅", 'utf-8')
+    message['From'] = Header("Lin's AI", 'utf-8')
+    message['To'] = Header("Xinzhe Lin", 'utf-8')
 
-    from_addr = "18665847089@qq.com"
+    from_addr = "sender@qq.com"
     password = ""
     smtp_server = "smtp.qq.com"
-    to_addr = "linxinzhechn@foxmail.com"
+    to_addr = "receiver@qq.com"
 
     server = smtplib.SMTP_SSL(smtp_server, 465)  # SMTP协议默认端口是25
     server.set_debuglevel(1)

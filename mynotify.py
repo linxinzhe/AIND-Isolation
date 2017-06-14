@@ -4,7 +4,10 @@ from email.header import Header
 
 
 def notify_email():
-    message = MIMEText('发完代表我的东西都执行完毕了，我从云端发送这个东西', 'plain', 'utf-8')
+    with open("./result.txt") as f:
+        msg = f.read()
+
+    message = MIMEText(msg, 'plain', 'utf-8')
 
     subject = '执行完毕啦'
     message['Subject'] = Header(subject, 'utf-8')
